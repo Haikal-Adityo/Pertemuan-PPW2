@@ -23,3 +23,7 @@ Route::get('/about', function () {
         'email' => 'lala@gmail.com'
     ]);
 });
+
+Route::get('/index', function () {
+    return view('web2.index');
+});
