@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\TestController;
 
 /*
 |--------------------------------------------------------------------------
@@ -13,17 +14,11 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', [TestController::class, 'beranda']);
+Route::get('/about', [TestController::class, 'about']);
+Route::get('/index', [TestController::class, 'index']);
 
-Route::get('/about', function () {
-    return view('about', [
-        'name' => 'lala',
-        'email' => 'lala@gmail.com'
-    ]);
-});
-
-Route::get('/index', function () {
-    return view('web2.index');
-});
+Route::get('/boom', [TestController::class, 'boomesport']);
+Route::get('/prx', [TestController::class, 'prxesport']);
+Route::get('/fnatic', [TestController::class, 'fnaticesport']);
+Route::get('/fpx', [TestController::class, 'fpxesport']);
