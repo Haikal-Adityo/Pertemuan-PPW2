@@ -18,5 +18,5 @@ Route::get('/fpx', [TestController::class, 'fpxesport']);
 
 //* PERTEMUAN 5
 
-// Route::get('/buku', 'BukuController@index');
+// Route::get('/buku', 'BukuController@index'); LARAVEL 7
 Route::get('/buku', [BukuController::class, 'index']);

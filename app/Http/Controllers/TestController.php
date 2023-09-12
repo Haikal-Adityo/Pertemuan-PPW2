@@ -16,7 +16,7 @@ class TestController extends Controller
             'email' => 'lala@gmail.com'
         ]);
     }
-
+    
     public function index(){
         return view('web2.index');
     }
