@@ -7,22 +7,33 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.rtl.min.css" integrity="sha384-nU14brUcp6StFntEOOEBvcJm4huWjB0OcIeQ3fltAfSmuZFrkAif0T+UtNGlKKQv" crossorigin="anonymous">
     <title>Buku Edit</title>
 </head>
-<body>
-    {{-- @extends('layouts.master') --}}
-
+<body></body>
     @section('content')
     <div class="container">
-        <h4>Edit Buku</h4>
+        <h2>Edit Buku</h2>
         <form method="POST" action="{{ route('buku.update', $buku->id) }}">
         @csrf
-            <div class="mb-3">Judul <input type="text" name="judul" value="{{ $buku->judul }}"></div>
-            <div class="mb-3">Penulis <input type="text" name="penulis" value="{{ $buku->penulis }}"></div>
-            <div class="mb-3">Harga <input type="text" name="harga" value="{{ $buku->harga }}"></div>
-            <div class="mb-3">Tgl. Terbit <input type="text" name="tgl_terbit" value="{{ $buku->tgl_terbit }}"></div>
-
-            <div><button type="submit">Simpan</button></div>
-            <a href="/buku">Batal</a>
-        </form>
+        <div class="form-group">
+            <label for="inputJudul">Judul</label> 
+            <input type="text" class="form-control" name="judul" id="inputJudul" value="{{ $buku->judul }}">
+        </div>
+        <div class="form-group">
+            <label for="inputPenulis">Penulis</label> 
+            <input type="text" class="form-control" name="penulis" id="inputPenulis" value="{{ $buku->penulis }}">
+        </div>
+        <div class="form-group">
+            <label for="inputHarga">Harga</label> 
+            <input type="text" class="form-control" name="harga" id="inputHarga" value="{{ $buku->harga }}">
+        </div>
+        <div class="form-group">
+            <label for="inputTgl_terbit">Tanggal Terbit</label> 
+            <input type="text" class="form-control" name="tgl_terbit" id="inputTgl_terbit" value="{{ $buku->tgl_terbit }}">
+        </div> 
+        &nbsp;
+        <div>
+            <button type="submit" class="btn btn-primary">Simpan</button>
+            <a href="/buku" class="btn btn-danger">Batal</a>
+        </div>
     </div>
 </body>
 </html>

@@ -8,20 +8,32 @@
     <title>Buku Create</title>
 </head>
 <body>
-    {{-- @extends('layouts.master') --}}
-
     @section('content')
     <div class="container">
-        <h4>Tambah Buku</h4>
+        <h2>Tambah Buku</h2>
         <form method="POST" action="{{ route('buku.store') }}">
         @csrf
-            <div class="mb-3">Judul <input type="text" name="judul"></div>
-            <div class="mb-3">Penulis <input type="text" name="penulis"></div>
-            <div class="mb-3">Harga <input type="text" name="harga"></div>
-            <div class="mb-3">Tgl. Terbit <input type="text" name="tgl_terbit"></div>
-
-            <div><button type="submit">Simpan</button></div>
-            <a href="/buku">Batal</a>
+            <div class="form-group">
+                <label for="inputJudul">Judul</label> 
+                <input type="text" class="form-control" name="judul" id="inputJudul">
+            </div>
+            <div class="form-group">
+                <label for="inputPenulis">Penulis</label> 
+                <input type="text" class="form-control" name="penulis" id="inputPenulis">
+            </div>
+            <div class="form-group">
+                <label for="inputHarga">Harga</label> 
+                <input type="text" class="form-control" name="harga" id="inputHarga">
+            </div>
+            <div class="form-group">
+                <label for="inputTgl_terbit">Tanggal Terbit</label> 
+                <input type="text" class="form-control" name="tgl_terbit" id="inputTgl_terbit">
+            </div> 
+            &nbsp;
+            <div>
+                <button type="submit" class="btn btn-primary">Simpan</button>
+                <a href="/buku" class="btn btn-danger">Batal</a>
+            </div>
         </form>
     </div>
 </body>
