@@ -17,6 +17,15 @@ Route::get('/fpx', [TestController::class, 'fpxesport']);
 
 
 //* PERTEMUAN 5
+// Route::get('/buku', 'BukuController@index'); CARA LARAVEL 7
 
-// Route::get('/buku', 'BukuController@index'); LARAVEL 7
 Route::get('/buku', [BukuController::class, 'index']);
+Route::get('/buku/create', [BukuController::class, 'create'])->name('buku.create');
+Route::post('/buku', [BukuController::class, 'store'])->name('buku.store');
+Route::post('/buku/delete/{id}', [BukuController::class, 'destroy'])->name('buku.destroy');
+
+// * UPDATE
+Route::get('/buku/edit/{id}', [BukuController::class, 'edit'])->name('buku.edit');
+
+// * STORE UPDATE
+Route::post('/buku/update/{id}', [BukuController::class, 'update'])->name('buku.update');
