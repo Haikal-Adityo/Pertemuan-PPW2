@@ -24,8 +24,11 @@ Route::get('/buku/create', [BukuController::class, 'create'])->name('buku.create
 Route::post('/buku', [BukuController::class, 'store'])->name('buku.store');
 Route::post('/buku/delete/{id}', [BukuController::class, 'destroy'])->name('buku.destroy');
 
-// * UPDATE
+// * EDIT
 Route::get('/buku/edit/{id}', [BukuController::class, 'edit'])->name('buku.edit');
 
-// * STORE UPDATE
+// * UPDATE
 Route::post('/buku/update/{id}', [BukuController::class, 'update'])->name('buku.update');
+
+//* SEARCH
+Route::get('/buku/search', [BukuController::class, 'search'])->name('buku.search');
