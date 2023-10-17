@@ -12,6 +12,13 @@
     <div class="card">
         <div class="card-header text-center" style="background-color: #0B5ED7; color: white"><h2>Edit Buku</h2></div>
         <div class="card-body">
+            @if(count($errors) > 0)
+                <ul class="alert alert-danger">
+                    @foreach ($errors->all() as $error)
+                        <li style="margin-left: 16px">{{ $error }}</li>
+                    @endforeach
+                </ul>
+            @endif
             <form method="POST" action="{{ route('buku.update', $buku->id) }}">
             @csrf
             <div class="form-group">

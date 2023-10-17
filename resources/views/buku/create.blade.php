@@ -13,9 +13,9 @@
         <div class="card-header text-center" style="background-color: #0B5ED7; color: white"><h2>Tambah Buku</h2></div>
         <div class="card-body">
             @if(count($errors) > 0)
-                <ul class="alert alert-danger">
+                <ul class="alert alert-danger list-group">
                     @foreach ($errors->all() as $error)
-                        <li>{{ $error }}</li>
+                        <li class="list-group-item">{{ $error }}</li>
                     @endforeach
                 </ul>
             @endif
