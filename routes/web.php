@@ -9,7 +9,6 @@ Route::get('/about', [TestController::class, 'about']);
 Route::get('/index', [TestController::class, 'index']);
 
 //* PERTEMUAN 4
-
 Route::get('/boom', [TestController::class, 'boomesport']);
 Route::get('/prx', [TestController::class, 'prxesport']);
 Route::get('/fnatic', [TestController::class, 'fnaticesport']);
@@ -18,7 +17,6 @@ Route::get('/fpx', [TestController::class, 'fpxesport']);
 
 //* PERTEMUAN 5
 // Route::get('/buku', 'BukuController@index'); CARA LARAVEL 7
-
 Route::get('/buku', [BukuController::class, 'index']);
 Route::get('/buku/create', [BukuController::class, 'create'])->name('buku.create');
 Route::post('/buku', [BukuController::class, 'store'])->name('buku.store');

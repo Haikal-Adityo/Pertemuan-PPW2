@@ -17,7 +17,7 @@
         @endif
 
         <div class="card">
-            <div class="card-header text-center" style="background-color: #0B5ED7; color: white"><h3>Daftar Buku</h3></div>
+            <div class="card-header text-center" style="background-color: #0B5ED7; color: white"><h2>Daftar Buku</h2></div>
             <div class="card-body">
                 <div class="d-flex justify-content-between">
                     <a style="left: right; margin-bottom: 16px" href="{{ route('buku.create') }}">
@@ -62,7 +62,7 @@
                     @endforeach
                     </tbody>
                 </table>
-                <div>{{ $data_buku->links() }}</div>
+                <div>{{ $data_buku->links('vendor.pagination.bootstrap-5') }}</div>
                 <div><strong>Jumlah Buku : {{ $jumlah_buku }}</strong></div>
                 <div><strong>Jumlah Harga Buku : {{ "Rp ".number_format($jumlah_harga, 0, ',', '.') }}</strong></div>
             </div>

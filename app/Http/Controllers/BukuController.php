@@ -31,24 +31,12 @@ class BukuController extends Controller
 
     // * FUNGSI UPDATE
     public function update(Request $request, $id){
-        $customMessages = [
-            'judul.required' => 'Kolom judul wajib diisi.',
-            'judul.string' => 'Kolom judul harus berisi teks.',
-            'penulis.required' => 'Kolom penulis wajib diisi.',
-            'penulis.string' => 'Kolom penulis harus berisi teks.',
-            'penulis.max' => 'Kolom penulis maksimal 30 karakter.',
-            'harga.required' => 'Kolom harga wajib diisi.',
-            'harga.numeric' => 'Kolom harga harus berisi angka.',
-            'tgl_terbit.required' => 'Kolom tanggal terbit wajib diisi.',
-            'tgl_terbit.date' => 'Kolom tanggal terbit harus berisi tanggal yang valid.',
-        ];
-        
         $this->validate($request, [
             'judul' => 'required|string',
             'penulis' => 'required|string|max:30',
             'harga' => 'required|numeric',
             'tgl_terbit' => 'required|date',
-        ], $customMessages);
+        ]);
         
         $buku = Buku::find($id);
         $buku->update([
@@ -62,24 +50,12 @@ class BukuController extends Controller
 
     // * FUNGSI STORE
     public function store(Request $request) {
-        $customMessages = [
-            'judul.required' => 'Kolom judul wajib diisi.',
-            'judul.string' => 'Kolom judul harus berisi teks.',
-            'penulis.required' => 'Kolom penulis wajib diisi.',
-            'penulis.string' => 'Kolom penulis harus berisi teks.',
-            'penulis.max' => 'Kolom penulis maksimal 30 karakter.',
-            'harga.required' => 'Kolom harga wajib diisi.',
-            'harga.numeric' => 'Kolom harga harus berisi angka.',
-            'tgl_terbit.required' => 'Kolom tanggal terbit wajib diisi.',
-            'tgl_terbit.date' => 'Kolom tanggal terbit harus berisi tanggal yang valid.',
-        ];
-        
         $this->validate($request, [
             'judul' => 'required|string',
             'penulis' => 'required|string|max:30',
             'harga' => 'required|numeric',
             'tgl_terbit' => 'required|date',
-        ], $customMessages);
+        ]);
 
         $buku = new Buku;
         $buku->judul = $request->judul;
