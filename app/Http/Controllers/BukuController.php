@@ -13,7 +13,7 @@ class BukuController extends Controller
         $batas = 5;
         $jumlah_buku = Buku::count();
         $data_buku = Buku::orderBy('id', 'desc')->paginate($batas);
-        $no = 1 + ($batas * ($data_buku->currentPage() - 1));
+        $no = $batas * ($data_buku->currentPage() - 1);
         $jumlah_harga = Buku::sum('harga');
         return view('buku.index', compact('data_buku','no', 'jumlah_buku', 'jumlah_harga'));
     }
@@ -45,7 +45,7 @@ class BukuController extends Controller
             'harga' => $request->harga,
             'tgl_terbit' => $request->tgl_terbit,
         ]);
-        return redirect('/buku')->with('pesan', 'Data Buku Berhasil Disimpan');
+        return redirect('/buku')->with('pesan', 'Data Buku Berhasil Diubah');
     }
 
     // * FUNGSI STORE
@@ -75,13 +75,22 @@ class BukuController extends Controller
 
     // * FUNGSI SEARCH
     public function search(Request $request){
+        $request->validate([
+            'kata' => 'required|string',
+        ]);
+    
         $batas = 5;
         $cari = $request->kata;
-        $data_buku = Buku::where('judul', 'like', "%".$cari."%")->orwhere('penulis', 'like', "%".$cari."%")
-            ->paginate($batas);
+        
+        $data_buku = Buku::where('judul', 'like', "%".$cari."%")
+                         ->orWhere('penulis', 'like', "%".$cari."%")
+                         ->paginate($batas);
+    
         $jumlah_buku = Buku::count();
-        $no = 1 + ($batas * ($data_buku->currentPage() - 1));
-        return view('buku.search', compact('data_buku','no', 'jumlah_buku', 'cari'));
+        $no = $batas * ($data_buku->currentPage() - 1);
+        
+        return view('buku.search', compact('data_buku', 'no', 'jumlah_buku', 'cari'));
     }
+    
 
 }

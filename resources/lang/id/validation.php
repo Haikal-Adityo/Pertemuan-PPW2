@@ -141,6 +141,7 @@ return [
         'harga.numeric' => 'Kolom harga harus berisi angka.',
         'tgl_terbit.required' => 'Kolom tanggal terbit wajib diisi.',
         'tgl_terbit.date' => 'Kolom tanggal terbit harus berisi tanggal yang valid.',
+        'kata.required' => 'Kotak search harus diisi'
     ],
 
     /*

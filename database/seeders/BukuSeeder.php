@@ -15,7 +15,7 @@ class BukuSeeder extends Seeder
     {
         
         Buku::factory()
-        ->count(10)
+        ->count(30)
         ->create();
 
     }

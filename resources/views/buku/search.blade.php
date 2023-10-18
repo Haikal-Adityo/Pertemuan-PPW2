@@ -8,13 +8,21 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.18.1/font/bootstrap-icons.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.rtl.min.css" integrity="sha384-nU14brUcp6StFntEOOEBvcJm4huWjB0OcIeQ3fltAfSmuZFrkAif0T+UtNGlKKQv" crossorigin="anonymous">
     <title>Buku</title>
+    <style>
+        .alert {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            z-index: 99;
+        }
+    </style>
 </head>
-<div class="container" style="margin-top: 16px">
-    <div class="col-md-12">
+<body>
+    <div class="container" style="margin-top: 5%">
 
         @if(count($data_buku))
             <div class="alert alert-success">Ditemukan <strong>{{ count($data_buku) }}</strong>
-            data dengan kata: <strong>{{ $cari }}</strong></div>
+            buku dengan kata: <strong>{{ $cari }}</strong></div>
 
         <div class="card">
             <div class="card-header text-center" style="background-color: #0B5ED7; color: white"><h3>Daftar Buku</h3></div>
@@ -25,10 +33,16 @@
                     </a>
                     <form action="{{ route('buku.search') }}" method="get">
                         @csrf
-                        <input type="text" name="kata" class="form form-control" placeholder="Cari ..." style="float:right;">
+                        <div class="input-group">
+                            <input type="text" name="kata" class="form-control" placeholder="Cari..." aria-label="Cari" style="border-radius: 8px 0 0 8px">
+                            <button type="submit" class="btn btn-primary" style="border-radius: 0 8px 8px 0">
+                                <i class="fas fa-search"></i>
+                            </button>
+                        </div>
                     </form>
+                    
                 </div>
-                <table class="table table-striped">
+                <table class="table table-striped table-bordered">
                     <thead>
                         <tr>
                             <th>id</th>
@@ -62,7 +76,7 @@
                     @endforeach
                     </tbody>
                 </table>
-                <div>{{ $data_buku->links() }}</div>
+                <div>{{ $data_buku->links('vendor.pagination.bootstrap-5') }}</div>
             </div>
         </div>
         @else
@@ -71,7 +85,6 @@
                 <a href="/buku" class="btn btn-warning">Kembali</a>
             </div>
         @endif
-    
     </div>
 </body>
 </html>
