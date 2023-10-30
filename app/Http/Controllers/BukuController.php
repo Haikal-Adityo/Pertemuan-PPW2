@@ -15,7 +15,7 @@ class BukuController extends Controller
         $data_buku = Buku::orderBy('id', 'desc')->paginate($batas);
         $no = $batas * ($data_buku->currentPage() - 1);
         $jumlah_harga = Buku::sum('harga');
-        return view('buku.index', compact('data_buku','no', 'jumlah_buku', 'jumlah_harga'));
+        return view('dashboard', compact('data_buku','no', 'jumlah_buku', 'jumlah_harga'));
     }
 
     // * FUNGSI CREATE

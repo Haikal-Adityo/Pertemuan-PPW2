@@ -1,23 +1,10 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.18.1/font/bootstrap-icons.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.rtl.min.css" integrity="sha384-nU14brUcp6StFntEOOEBvcJm4huWjB0OcIeQ3fltAfSmuZFrkAif0T+UtNGlKKQv" crossorigin="anonymous">
-    <title>Buku</title>
-    <style>
-        .alert {
-            position: absolute;
-            top: 10px;
-            right: 10px;
-            z-index: 99;
-        }
-    </style>
-</head>
-<body>
+<x-app-layout>
+    <x-slot name="header">
+        <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
+            {{ __('Daftar Buku') }}
+        </h2>
+    </x-slot>
+
     <div class="container" style="margin-top: 5%">
 
         @if(count($data_buku))
@@ -35,7 +22,7 @@
                         @csrf
                         <div class="input-group">
                             <input type="text" name="kata" class="form-control" placeholder="Cari..." aria-label="Cari" style="border-radius: 8px 0 0 8px">
-                            <button type="submit" class="btn btn-primary" style="border-radius: 0 8px 8px 0">
+                            <button type="submit" class="btn btn-primary" style="border-radius: 0 8px 8px 0 ; background-color: #0069D9;"">
                                 <i class="fas fa-search"></i>
                             </button>
                         </div>
@@ -86,5 +73,4 @@
             </div>
         @endif
     </div>
-</body>
-</html>
+</x-app-layout>
