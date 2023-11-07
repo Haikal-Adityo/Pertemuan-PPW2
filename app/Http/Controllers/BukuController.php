@@ -8,6 +8,10 @@ use App\Models\Buku;
 
 class BukuController extends Controller
 {
+    public function __construct(){
+        $this->middleware("auth");
+    }
+
     //* FUNGSI INDEX
     public function index() {
         $batas = 5;
@@ -15,7 +19,7 @@ class BukuController extends Controller
         $data_buku = Buku::orderBy('id', 'desc')->paginate($batas);
         $no = $batas * ($data_buku->currentPage() - 1);
         $jumlah_harga = Buku::sum('harga');
-        return view('dashboard', compact('data_buku','no', 'jumlah_buku', 'jumlah_harga'));
+        return view('buku.index', compact('data_buku','no', 'jumlah_buku', 'jumlah_harga'));
     }
 
     // * FUNGSI CREATE
