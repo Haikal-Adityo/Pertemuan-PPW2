@@ -2,9 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Gallery;
 use Illuminate\Http\Request;
 //* TAMBAHKAN KODE BERIKUT UNTUK MEMANGGIL MODEL BUKU
 use App\Models\Buku;
+use Intervention\Image\Facades\Image;
+// use Image;
 
 class BukuController extends Controller
 {
@@ -40,15 +43,43 @@ class BukuController extends Controller
             'penulis' => 'required|string|max:30',
             'harga' => 'required|numeric',
             'tgl_terbit' => 'required|date',
+            'thumbnail' => 'image|mimes:jpeg,jpg,png,webp|max:2048'
         ]);
         
-        $buku = Buku::find($id);
-        $buku->update([
-            'judul' => $request->judul,
-            'penulis' => $request->penulis,
-            'harga' => $request->harga,
-            'tgl_terbit' => $request->tgl_terbit,
-        ]);
+        if($request->file('thumbnail')) {
+            $buku = Buku::find($id);
+            $fileName = time().'-'.$request->thumbnail->getClientOriginalName();
+            $filePath = $request->file('thumbnail')->storeAs('uploads', $fileName, 'public');
+
+            Image::make(storage_path().'/app/public/uploads/'.$fileName)
+                ->fit(240,320)
+                ->save();
+
+            $buku->update([
+                'judul' => $request->judul,
+                'penulis' => $request->penulis,
+                'harga' => $request->harga,
+                'tgl_terbit' => $request->tgl_terbit,
+                'filename' => $fileName,
+                'filepath' => '/storage/' . $filePath,
+            ]);
+        };
+
+        if($request->file('gallery')) {
+            foreach($request->file('gallery') as $key => $file) {
+                $fileName = time().'_'.$file->getClientOriginalName();
+                $filePath = $file->storeAs('uploads', $fileName, 'public');
+
+                $gallery = Gallery::create([
+                    'nama_galeri' => $fileName,
+                    'path' => '/storage/'.$filePath,
+                    'foto' => $fileName,
+                    'buku_id' => $id
+                ]);
+                
+            }
+        };
+
         return redirect('/buku')->with('pesan', 'Data Buku Berhasil Diubah');
     }
 
@@ -59,6 +90,7 @@ class BukuController extends Controller
             'penulis' => 'required|string|max:30',
             'harga' => 'required|numeric',
             'tgl_terbit' => 'required|date',
+            'thumbnail' => 'image|mimes:jpeg,jpg,png,webp|max:2048',
         ]);
 
         $buku = new Buku;
@@ -66,16 +98,66 @@ class BukuController extends Controller
         $buku->penulis = $request->penulis;
         $buku->harga = $request->harga;
         $buku->tgl_terbit = $request->tgl_terbit;
-        $buku->save();
+
+        // * HANDLE THUMBNAIL
+        if ($request->file('thumbnail')) {
+            $thumbnailFileName = time() . '-' . $request->thumbnail->getClientOriginalName();
+            $thumbnailFilePath = $request->file('thumbnail')->storeAs('uploads', $thumbnailFileName, 'public');
+
+            Image::make(storage_path() . '/app/public/uploads/' . $thumbnailFileName)
+                ->fit(240, 320)
+                ->save();
+
+            $buku->filename = $thumbnailFileName;
+            $buku->filepath = '/storage/' . $thumbnailFilePath;
+            $buku->save();
+        }
+
+
+        // * HANDLE GALLERY
+        if ($request->file('gallery')) {
+            foreach ($request->file('gallery') as $file) {
+                $galleryFileName = time() . '_' . $file->getClientOriginalName();
+                $galleryFilePath = $file->storeAs('uploads', $galleryFileName, 'public');
+
+                $gallery = new Gallery;
+                $gallery->nama_galeri = $galleryFileName;
+                $gallery->path = '/storage/' . $galleryFilePath;
+                $gallery->foto = $galleryFileName;
+                $gallery->buku_id = $buku->id;
+                $gallery->save();
+            }
+        }
+
         return redirect('/buku')->with('pesan', 'Data Buku Berhasil Disimpan');
     }
 
+
     // * FUNGSI DESTROY
     public function destroy($id) {
-    $buku = Buku::find($id);
-    $buku->delete();
-    return redirect('/buku')->with('pesan', 'Data Buku Berhasil Dihapus');
+        $buku = Buku::find($id);
+    
+        if (!$buku) {
+            return redirect('/buku')->with('error', 'Data Buku tidak ditemukan');
+        }
+    
+        $buku->delete();
+        return redirect('/buku')->with('pesan', 'Data Buku Berhasil Dihapus');
     }
+    
+
+    public function destroyImage($buku_id, $image_id) {
+        $buku = Buku::find($buku_id);
+        $image = Gallery::find($image_id);
+    
+        if ($image && $buku && $image->buku_id === $buku->id) {
+            $image->delete();
+            return back()->with('pesan', 'Image deleted successfully');
+        } else {
+            return back()->with('error', 'Image not found or does not belong to the book');
+        }
+    }
+    
 
     // * FUNGSI SEARCH
     public function search(Request $request){

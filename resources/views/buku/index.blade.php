@@ -55,7 +55,21 @@
                     @foreach($data_buku as $buku)
                         <tr>
                             <td>{{ ++$no }}</td>
-                            <td>{{ $buku->judul }}</td>
+                            <td>
+                                <div class="flex items-center">
+                                    @if ($buku->filepath)
+                                        <div class="relative h-10 w-10">
+                                            <img
+                                                class="h-full w-full rounded-full object-cover object-center"
+                                                src="{{ asset($buku->filepath) }}"
+                                                alt="thumbnail"
+                                            />
+                                        </div>
+                                    @endif
+                                    <span class="ml-2">{{ $buku->judul }}</span>
+                                </div>
+                            </td>
+                            
                             <td>{{ $buku->penulis }}</td>
                             <td>{{ "Rp ".number_format($buku->harga, 0, ',', '.') }}</td>
                             <td>{{ ($buku->tgl_terbit)->format('d/m/Y') }}</td>
@@ -80,9 +94,6 @@
                 <div><strong>Jumlah Buku : {{ $jumlah_buku }}</strong></div>
                 <div><strong>Jumlah Harga Buku : {{ "Rp ".number_format($jumlah_harga, 0, ',', '.') }}</strong></div>
 
-                @if(Auth::user()->level == 'admin')
-                    // Kode HTML
-                @endif
             </div>
         </div>
     </div>
