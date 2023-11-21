@@ -17,10 +17,16 @@
                     </x-nav-link>
                 </div>
 
+                <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
+                    <x-nav-link :href="route('buku.list')" :active="request()->routeIs('buku.list')">
+                        {{ __('Buku') }}
+                    </x-nav-link>
+                </div>
+
                 @if(Auth::user()->level == 'admin')
                 <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
                     <x-nav-link :href="route('buku.index')" :active="request()->routeIs('buku.index')">
-                        {{ __('Buku') }}
+                        {{ __('Buku Admin') }}
                     </x-nav-link>
                 </div>
                 @endif
@@ -49,13 +55,13 @@
                         <!-- Authentication -->
                         <form method="POST" action="{{ route('logout') }}">
                             @csrf
-
                             <x-dropdown-link :href="route('logout')"
                                     onclick="event.preventDefault();
                                                 this.closest('form').submit();">
                                 {{ __('Log Out') }}
                             </x-dropdown-link>
                         </form>
+
                     </x-slot>
                 </x-dropdown>
             </div>

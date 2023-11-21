@@ -22,12 +22,7 @@
         <div class="card">
             <div class="card-body">
                 <div class="d-flex justify-content-between">
-                    <a style="left: right; margin-bottom: 16px" href="{{ route('buku.create') }}">
-                        @if(Auth::user()->level == 'admin')
-                        <button class="btn btn-success"><i class="fa-solid fa-plus"></i>&nbsp;Tambah Buku</button>
-                        @endif
-                    </a>
-                    <form action="{{ route('buku.search') }}" method="get">
+                    <form action="{{ route('buku.listSearch') }}" method="get">
                         @csrf
                         <div class="input-group my-3">
                             <input type="text" name="kata" class="form-control" placeholder="Cari..." aria-label="Cari" style="border-radius: 8px 0 0 8px">
@@ -46,9 +41,6 @@
                             <th scope="col">Penulis</th>
                             <th scope="col">Harga</th>
                             <th scope="col">Tgl. Terbit</th>
-                            @if(Auth::user()->level == 'admin')
-                                <th scope="col">Aksi</th>
-                            @endif
                         </tr>
                     </thead>
                     <tbody>
@@ -72,30 +64,15 @@
                                     </div>
                                 </a>
                             </td>
-                            
                             <td>{{ $buku->penulis }}</td>
                             <td>{{ "Rp ".number_format($buku->harga, 0, ',', '.') }}</td>
                             <td>{{ ($buku->tgl_terbit)->format('d/m/Y') }}</td>
-                                @if(Auth::user()->level == 'admin')
-                            <td>
-                                <div class="btn-group" role="group" style="overflow-x: auto;">
-                                    <a href="{{ route('buku.edit', $buku->id) }}" class="btn btn-primary"><i class="fa-regular fa-pen-to-square"></i>&nbsp;Edit</a>
-                                    &nbsp;
-                                    <form action="{{ route('buku.destroy', $buku->id) }}" method="POST">
-                                        @csrf
-                                        <button class="btn btn-danger" onClick="return confirm('Are you sure?')"><i class="fas fa-trash"></i>&nbsp;Hapus</button>
-                                    </form>
-                                </div>
-                            </td>
-                            @endif
                         </tr>
                     @endforeach
                     </tbody>
                 </table>                
                 
                 <div>{{ $data_buku->links('vendor.pagination.bootstrap-5') }}</div>
-                <div><strong>Jumlah Buku : {{ $jumlah_buku }}</strong></div>
-                <div><strong>Jumlah Harga Buku : {{ "Rp ".number_format($jumlah_harga, 0, ',', '.') }}</strong></div>
 
             </div>
         </div>

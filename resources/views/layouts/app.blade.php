@@ -7,27 +7,41 @@
 
         <title>{{ config('app.name', 'Laravel') }}</title>
 
-        <!-- Fonts -->
+
+        <!-- Styles -->
         <link rel="preconnect" href="https://fonts.bunny.net">
         <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
 
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.rtl.min.css" integrity="sha384-nU14brUcp6StFntEOOEBvcJm4huWjB0OcIeQ3fltAfSmuZFrkAif0T+UtNGlKKQv" crossorigin="anonymous">
 
-        <!-- Scripts -->
-        <script>
-            setTimeout(function() {
-                $('.alert').alert('close');
-            }, 3000);
-        </script>
         <style>
-            .alert {
+            .alert-success {
                 position: fixed;
-                bottom: 10px;
+                top: 10px;
+                right: 10px;
+                z-index: 99;
+            }
+            .alert-danger {
+                position: fixed;
+                top: 10px;
                 right: 10px;
                 z-index: 99;
             }
         </style>
+        
+        <!-- Scripts -->
+        <script>
+            setTimeout(function() {
+                $('.alert-success').alert('close');
+                $('.alert-danger').alert('close');
+            }, 3000);
+        </script>
+
+        <script type="text/javascript" src="http://code.jquery.com/jquery-latest.min.js"></script>
+
+        <link href="{{ asset('dist/css/lightbox.css') }}" rel="stylesheet" />
+
         @vite(['resources/css/app.css', 'resources/js/app.js'])
     </head>
     <body class="font-sans antialiased">
@@ -51,5 +65,8 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+    <script src="{{ asset('dist/js//lightbox-plus-jquery.js') }}"></script>
+
     </body>
 </html>

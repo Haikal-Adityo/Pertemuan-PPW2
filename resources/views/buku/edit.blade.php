@@ -79,7 +79,7 @@
 
             @if($buku->galleries()->count() > 0)
                 <p class="block text-gray-700 text-xl font-bold mb-2">Image Gallery</p>
-                <div class="gallery_items flex">
+                <div class="gallery_items flex flex-wrap">
                     @foreach($buku->galleries()->get() as $gallery)
                         <div class="gallery_item m-3 relative">
                             <img
