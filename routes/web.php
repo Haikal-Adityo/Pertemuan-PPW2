@@ -4,6 +4,8 @@ use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\TestController;
 use App\Http\Controllers\BukuController;
+use App\Http\Controllers\FavoriteController;
+use App\Http\Controllers\RatingController;
 
 Route::get('/', [TestController::class, 'beranda']);
 Route::get('/about', [TestController::class, 'about']);
@@ -53,10 +55,14 @@ Route::get('/dashboard', function () {
 
 Route::middleware('auth')->group(function () {
     
-    Route::get('/list', [BukuController::class, 'list'])->name('buku.list');
-    Route::get('/list/search', [BukuController::class, 'listSearch'])->name('buku.listSearch');
+    Route::get('/buku/list', [BukuController::class, 'list'])->name('buku.list');
+    Route::get('/buku/list/search', [BukuController::class, 'listSearch'])->name('buku.listSearch');
 
-    Route::get('/detail-buku/{id}', [BukuController::class, 'galBuku'])->name('buku.galeri');
+    Route::get('/buku/detail/{id}', [BukuController::class, 'galBuku'])->name('buku.galeri');
+    Route::post('/buku/detail/{id}/rate', [RatingController::class, 'ratingBuku'])->name('buku.rating');
+
+    Route::get('/buku/favorite', [BukuController::class, 'showFavoriteBuku'])->name('buku.showFavorite');
+    Route::post('/buku/favorite/{id}', [FavoriteController::class, 'favoriteBuku'])->name('buku.favorite');
 
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
@@ -66,8 +72,7 @@ Route::middleware('auth')->group(function () {
 
         Route::get('/buku', [BukuController::class, 'index'])->name('buku.index');
         Route::get('/buku/create', [BukuController::class, 'create'])->name('buku.create');
-
-
+        
         Route::get('/buku/search', [BukuController::class, 'search'])->name('buku.search');
         Route::get('/buku/edit/{id}', [BukuController::class, 'edit'])->name('buku.edit');
         Route::post('/buku', [BukuController::class, 'store'])->name('buku.store');

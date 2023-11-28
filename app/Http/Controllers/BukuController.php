@@ -7,6 +7,9 @@ use Illuminate\Http\Request;
 //* TAMBAHKAN KODE BERIKUT UNTUK MEMANGGIL MODEL BUKU
 use App\Models\Buku;
 use Intervention\Image\Facades\Image;
+use App\Models\Rating;
+use Illuminate\Support\Facades\Auth;
+use App\Models\User;
 // use Image;
 
 class BukuController extends Controller
@@ -25,12 +28,14 @@ class BukuController extends Controller
         return view('buku.index', compact('data_buku','no', 'jumlah_buku', 'jumlah_harga'));
     }
 
-    public function list() {
+    public function list()
+    {
         $batas = 5;
-        $data_buku = Buku::orderBy('id', 'desc')->paginate($batas);
+        $data_buku = Buku::with('ratings')->orderBy('id', 'desc')->paginate($batas);
         $no = $batas * ($data_buku->currentPage() - 1);
-        return view('buku.list', compact('data_buku','no'));
-    }
+    
+        return view('buku.list', compact('data_buku', 'no'));
+    }    
     
     public function listSearch(Request $request){
         $request->validate([
@@ -210,7 +215,25 @@ class BukuController extends Controller
         $buku = Buku::find($id);
         $galeris = $buku->galleries()->orderBy('id', 'desc')->paginate(8);
 
-        return view('buku.galeri', compact('buku', 'galeris'));
+        $rating = Rating::where('buku_id', $id)->avg('rating');
+        $existingRating = Rating::where('user_id', Auth::id())
+                            ->where('buku_id', $id)
+                            ->first();
+
+        return view('buku.galeri', compact('buku', 'galeris', 'rating', 'existingRating'));
+    }
+
+    public function showFavoriteBuku()
+    {
+        $userId = Auth::id();
+        $user = User::find($userId);
+
+        $batas = 5;
+
+        $favoriteBooks = $user->favorites()->paginate($batas);
+        $no = $batas * ($favoriteBooks->currentPage() - 1);
+
+        return view('buku.favorite', compact('favoriteBooks', 'no'));
     }
 
 }
