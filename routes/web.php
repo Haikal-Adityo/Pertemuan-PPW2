@@ -4,7 +4,7 @@ use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\TestController;
 use App\Http\Controllers\BukuController;
-use App\Http\Controllers\FavoriteController;
+use App\Http\Controllers\FavouriteController;
 use App\Http\Controllers\RatingController;
 
 Route::get('/', [TestController::class, 'beranda']);
@@ -58,11 +58,11 @@ Route::middleware('auth')->group(function () {
     Route::get('/buku/list', [BukuController::class, 'list'])->name('buku.list');
     Route::get('/buku/list/search', [BukuController::class, 'listSearch'])->name('buku.listSearch');
 
-    Route::get('/buku/detail/{id}', [BukuController::class, 'galBuku'])->name('buku.galeri');
+    Route::get('/buku/detail/{id}', [BukuController::class, 'detailBuku'])->name('buku.detail');
     Route::post('/buku/detail/{id}/rate', [RatingController::class, 'ratingBuku'])->name('buku.rating');
 
-    Route::get('/buku/favorite', [BukuController::class, 'showFavoriteBuku'])->name('buku.showFavorite');
-    Route::post('/buku/favorite/{id}', [FavoriteController::class, 'favoriteBuku'])->name('buku.favorite');
+    Route::get('/buku/favourite', [BukuController::class, 'showFavouriteBuku'])->name('buku.showFavourite');
+    Route::post('/buku/favourite/{id}', [FavouriteController::class, 'favouriteBuku'])->name('buku.favourite');
 
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
@@ -81,6 +81,13 @@ Route::middleware('auth')->group(function () {
         Route::post('/buku/edit/{id}/delete-image/{image_id}', [BukuController::class, 'destroyImage'])->name('buku.destroyImage');
         
     });
+});
+
+Route::middleware('auth')->group(function () {
+    Route::get('/buku/favourite', [BukuController::class, 'showFavouriteBuku'])->name('buku.showFavourite');
+
+    Route::get('/buku/detail/{id}', [BukuController::class, 'detailBuku'])->name('buku.detail');
+    Route::post('/buku/detail/{id}/favourite', [FavouriteController::class, 'favouriteBuku'])->name('buku.favourite');
 });
 
 require __DIR__.'/auth.php';

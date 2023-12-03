@@ -2,17 +2,18 @@
 
     <head>
         <link href="path/to/lightbox.css" rel="stylesheet" />
+
         <style>
             .rate {
                 float: left;
                 height: 46px;
                 padding: 0 10px;
-                }
-                .rate:not(:checked) > input {
+            }
+            .rate:not(:checked) > input {
                 position:absolute;
                 display: none;
-                }
-                .rate:not(:checked) > label {
+            }
+            .rate:not(:checked) > label {
                 float:right;
                 width:1em;
                 overflow:hidden;
@@ -20,8 +21,8 @@
                 cursor:pointer;
                 font-size:30px;
                 color:#ccc;
-                }
-                .rated:not(:checked) > label {
+            }
+            .rated:not(:checked) > label {
                 float:right;
                 width:1em;
                 overflow:hidden;
@@ -29,44 +30,44 @@
                 cursor:pointer;
                 font-size:30px;
                 color:#ccc;
-                }
-                .rate:not(:checked) > label:before {
+            }
+            .rate:not(:checked) > label:before {
                 content: '★ ';
-                }
-                .rate > input:checked ~ label {
+            }
+            .rate > input:checked ~ label {
                 color: #ffc700;
-                }
-                .rate:not(:checked) > label:hover,
-                .rate:not(:checked) > label:hover ~ label {
+            }
+            .rate:not(:checked) > label:hover,
+            .rate:not(:checked) > label:hover ~ label {
                 color: #deb217;
-                }
-                .rate > input:checked + label:hover,
-                .rate > input:checked + label:hover ~ label,
-                .rate > input:checked ~ label:hover,
-                .rate > input:checked ~ label:hover ~ label,
-                .rate > label:hover ~ input:checked ~ label {
+            }
+            .rate > input:checked + label:hover,
+            .rate > input:checked + label:hover ~ label,
+            .rate > input:checked ~ label:hover,
+            .rate > input:checked ~ label:hover ~ label,
+            .rate > label:hover ~ input:checked ~ label {
                 color: #c59b08;
-                }
-                .star-rating-complete{
+            }
+            .star-rating-complete{
                    color: #c59b08;
-                }
-                .rating-container .form-control:hover, .rating-container .form-control:focus{
+            }
+            .rating-container .form-control:hover, .rating-container .form-control:focus{
                 background: #fff;
                 border: 1px solid #ced4da;
-                }
-                .rating-container textarea:focus, .rating-container input:focus {
+            }
+            .rating-container textarea:focus, .rating-container input:focus {
                 color: #000;
-                }
-                .rated {
+            }
+            .rated {
                 float: left;
                 height: 46px;
                 padding: 0 10px;
-                }
-                .rated:not(:checked) > input {
+            }
+            .rated:not(:checked) > input {
                 position:absolute;
                 display: none;
-                }
-                .rated:not(:checked) > label {
+            }
+            .rated:not(:checked) > label {
                 float:right;
                 width:1em;
                 overflow:hidden;
@@ -74,25 +75,25 @@
                 cursor:pointer;
                 font-size:30px;
                 color:#ffc700;
-                }
-                .rated:not(:checked) > label:before {
+            }
+            .rated:not(:checked) > label:before {
                 content: '★ ';
-                }
-                .rated > input:checked ~ label {
+            }
+            .rated > input:checked ~ label {
                 color: #ffc700;
-                }
+            }
                 .rated:not(:checked) > label:hover,
-                .rated:not(:checked) > label:hover ~ label {
+            .rated:not(:checked) > label:hover ~ label {
                 color: #deb217;
-                }
-                .rated > input:checked + label:hover,
-                .rated > input:checked + label:hover ~ label,
-                .rated > input:checked ~ label:hover,
-                .rated > input:checked ~ label:hover ~ label,
-                .rated > label:hover ~ input:checked ~ label {
+            }
+            .rated > input:checked + label:hover,
+            .rated > input:checked + label:hover ~ label,
+            .rated > input:checked ~ label:hover,
+            .rated > input:checked ~ label:hover ~ label,
+            .rated > label:hover ~ input:checked ~ label {
                 color: #c59b08;
-                }
-                           #album {
+            }
+            #album {
                 background-color: #f8f9fa;
                 padding: 30px 0;
             }
@@ -146,25 +147,47 @@
                 font-size: 18px;
                 margin-top: 20px;
                 margin-bottom: 10px;
-            }
-       </style>  
+            }   
+        </style>
+        <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+        <script>
+            $(document).ready(function() {
+                setTimeout(function() {
+                    $('.alert-success').alert('close');
+                    $('.alert-danger').alert('close');
+                }, 3000);
+            });
+        </script>        
     </head>
 
     <section id="album">
         <div class="container">
 
+            @if(Session::has('pesan'))
+                <div class="alert alert-success fade show" id="success-alert" role="alert">{{ Session::get('pesan') }}</div>
+            @endif
+
+            @if(count($errors) > 0)
+                <ul class="alert alert-danger">
+                    @foreach ($errors->all() as $error)
+                        <li style="list-style: none;">{{ $error }}</li>
+                    @endforeach
+                </ul>
+            @endif
+
             <div class="d-flex flex-column align-items-end">
-                <form action="{{ route('buku.favorite', $buku->id) }}" method="POST" class="favorite-form">
+                <form action="{{ route('buku.favourite', $buku->id) }}" method="POST" class="favourite-form">
                     @csrf
-                    <button type="submit" class="btn btn-link favorite-button">
-                        @if (Auth::user()->favorites && Auth::user()->favorites->contains($buku))
+                    <button type="submit" class="btn btn-link favourite-button">
+                        @if (Auth::user()->favourites && Auth::user()->favourites->contains($buku))
                             <i class="fas fa-heart text-danger fa-2x"></i>
                         @else
                             <i class="far fa-heart text-secondary fa-2x"></i>
                         @endif
                     </button>
                 </form>
-                <span class="mt-2">Favorite</span>
+                <span class="mt-2">Favourite</span>
             </div>            
             
             <div class="book-details mt-4">

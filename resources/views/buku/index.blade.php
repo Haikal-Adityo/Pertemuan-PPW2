@@ -57,7 +57,7 @@
                             
                             <td>{{ ++$no }}</td>
                             <td>
-                                <a href="{{ route('buku.galeri', $buku->id) }}">
+                                <a href="{{ route('buku.detail', $buku->id) }}">
                                     <div class="flex items-center">
                                         @if ($buku->filepath)
                                             <div class="relative h-10 w-10">

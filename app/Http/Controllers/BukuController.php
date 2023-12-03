@@ -211,7 +211,7 @@ class BukuController extends Controller
         return view('buku.search', compact('data_buku', 'no', 'jumlah_buku', 'cari'));
     }
 
-    public function galBuku($id) {
+    public function detailBuku($id) {
         $buku = Buku::find($id);
         $galeris = $buku->galleries()->orderBy('id', 'desc')->paginate(8);
 
@@ -220,20 +220,20 @@ class BukuController extends Controller
                             ->where('buku_id', $id)
                             ->first();
 
-        return view('buku.galeri', compact('buku', 'galeris', 'rating', 'existingRating'));
+        return view('buku.detail', compact('buku', 'galeris', 'rating', 'existingRating'));
     }
 
-    public function showFavoriteBuku()
+    public function showFavouriteBuku()
     {
         $userId = Auth::id();
         $user = User::find($userId);
 
         $batas = 5;
 
-        $favoriteBooks = $user->favorites()->paginate($batas);
-        $no = $batas * ($favoriteBooks->currentPage() - 1);
+        $favouriteBooks = $user->favourites()->paginate($batas);
+        $no = $batas * ($favouriteBooks->currentPage() - 1);
 
-        return view('buku.favorite', compact('favoriteBooks', 'no'));
+        return view('buku.favourite', compact('favouriteBooks', 'no'));
     }
 
 }

@@ -31,11 +31,11 @@
                         </tr>
                     </thead>
                     <tbody>
-                    @foreach($favoriteBooks as $buku)
+                    @foreach($favouriteBooks as $buku)
                         <tr>
                             <td>{{ ++$no }}</td>
                             <td>
-                                <a href="{{ route('buku.galeri', $buku->id) }}">
+                                <a href="{{ route('buku.detail', $buku->id) }}">
                                     <div class="flex items-center">
                                         @if ($buku->filepath)
                                             <div class="relative h-10 w-10">
@@ -56,7 +56,7 @@
                     </tbody>
                 </table>                
                 
-                <div>{{ $favoriteBooks->links('vendor.pagination.bootstrap-5') }}</div>
+                <div>{{ $favouriteBooks->links('vendor.pagination.bootstrap-5') }}</div>
 
             </div>
         </div>

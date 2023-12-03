@@ -50,7 +50,7 @@
                             
                             <td>{{ ++$no }}</td>
                             <td>
-                                <a href="{{ route('buku.galeri', $buku->id) }}">
+                                <a href="{{ route('buku.detail', $buku->id) }}">
                                     <div class="flex items-center">
                                         @if ($buku->filepath)
                                             <div class="relative h-10 w-10">
@@ -62,7 +62,7 @@
                                             </div>
                                         @endif
                                         <span class="ml-2">{{ $buku->judul }}</span>
-                                        @if(Auth::user()->favorites && Auth::user()->favorites->contains($buku))
+                                        @if(Auth::user()->favourites && Auth::user()->favourites->contains($buku))
                                             <span class="ml-auto mr-2">
                                                 <i class="fas fa-heart text-danger text-right"></i>
                                             </span>

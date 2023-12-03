@@ -11,27 +11,22 @@ class RatingController extends Controller
 {
     public function ratingBuku(Request $request, $id)
     {
-        $buku = Buku::find($id);
-    
+        $request->validate([
+            'rating' => 'required|numeric|min:1|max:5',
+        ]);
+
         $existingRating = Rating::where('user_id', Auth::id())
                                 ->where('buku_id', $id)
                                 ->first();
     
         if ($existingRating) {
-            $request->validate([
-                'rating' => 'required|numeric|min:1|max:5',
-            ]);
     
             $existingRating->update([
                 'rating' => $request->rating,
             ]);
     
-            return redirect()->back()->with('pesan', 'Your rating has been updated successfully.');
+            return redirect()->back()->with('pesan', 'Rating Anda berhasil diubah :)');
         }
-    
-        $request->validate([
-            'rating' => 'required|numeric|min:1|max:5',
-        ]);
     
         $newRating = new Rating([
             'buku_id' => $id,
@@ -41,6 +36,6 @@ class RatingController extends Controller
     
         $newRating->save();
     
-        return redirect()->back()->with('pesan', 'Your rating has been submitted successfully.');
+        return redirect()->back()->with('pesan', 'Rating Anda telah berhasil dikirim :)');
     }
 }
