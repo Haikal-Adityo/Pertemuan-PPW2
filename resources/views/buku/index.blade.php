@@ -81,6 +81,10 @@
                                 <div class="btn-group" role="group" style="overflow-x: auto;">
                                     <a href="{{ route('buku.edit', $buku->id) }}" class="btn btn-primary"><i class="fa-regular fa-pen-to-square"></i>&nbsp;Edit</a>
                                     &nbsp;
+                                    <a href="{{ route('buku.attachKategorisForm', $buku->id) }}" class="btn btn-info">
+                                        <i class="fas fa-plus"></i>&nbsp;Kategori
+                                    </a>
+                                    &nbsp;
                                     <form action="{{ route('buku.destroy', $buku->id) }}" method="POST">
                                         @csrf
                                         <button class="btn btn-danger" onClick="return confirm('Are you sure?')"><i class="fas fa-trash"></i>&nbsp;Hapus</button>

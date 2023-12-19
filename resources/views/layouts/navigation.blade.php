@@ -29,10 +29,30 @@
                     </x-nav-link>
                 </div>
 
+                <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
+                    <x-nav-link :href="route('buku.populer')" :active="request()->routeIs('buku.populer')">
+                        {{ __('Buku Populer') }}
+                    </x-nav-link>
+                </div>
+
+                <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
+                    <x-nav-link :href="route('buku.listKategori')" :active="request()->routeIs('buku.listKategori')">
+                        {{ __('Kategori Buku') }}
+                    </x-nav-link>
+                </div>
+
                 @if(Auth::user()->level == 'admin')
                 <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
                     <x-nav-link :href="route('buku.index')" :active="request()->routeIs('buku.index')">
                         {{ __('Buku Admin') }}
+                    </x-nav-link>
+                </div>
+                @endif
+
+                @if(Auth::user()->level == 'admin')
+                <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
+                    <x-nav-link :href="route('kategori.index')" :active="request()->routeIs('kategori.index')">
+                        {{ __('Kategori Admin') }}
                     </x-nav-link>
                 </div>
                 @endif

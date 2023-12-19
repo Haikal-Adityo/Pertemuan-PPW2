@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\TestController;
 use App\Http\Controllers\BukuController;
 use App\Http\Controllers\FavouriteController;
+use App\Http\Controllers\KategoriController;
 use App\Http\Controllers\RatingController;
 
 Route::get('/', [TestController::class, 'beranda']);
@@ -58,6 +59,8 @@ Route::middleware('auth')->group(function () {
     Route::get('/buku/list', [BukuController::class, 'list'])->name('buku.list');
     Route::get('/buku/list/search', [BukuController::class, 'listSearch'])->name('buku.listSearch');
 
+    Route::get('/buku/populer', [BukuController::class, 'showBukuPopuler'])->name('buku.populer');
+
     Route::get('/buku/detail/{id}', [BukuController::class, 'detailBuku'])->name('buku.detail');
     Route::post('/buku/detail/{id}/rate', [RatingController::class, 'ratingBuku'])->name('buku.rating');
 
@@ -70,6 +73,7 @@ Route::middleware('auth')->group(function () {
 
     Route::middleware('admin')->group(function () {
 
+        // * BUKU
         Route::get('/buku', [BukuController::class, 'index'])->name('buku.index');
         Route::get('/buku/create', [BukuController::class, 'create'])->name('buku.create');
         
@@ -79,7 +83,24 @@ Route::middleware('auth')->group(function () {
         Route::post('/buku/update/{id}', [BukuController::class, 'update'])->name('buku.update');
         Route::post('/buku/delete/{id}', [BukuController::class, 'destroy'])->name('buku.destroy');
         Route::post('/buku/edit/{id}/delete-image/{image_id}', [BukuController::class, 'destroyImage'])->name('buku.destroyImage');
-        
+
+        Route::get('/buku/{id}/attach-kategoris', [BukuController::class, 'attachKategorisForm'])->name('buku.attachKategorisForm');
+        Route::post('/buku/{id}/attach-kategoris', [BukuController::class, 'attachKategoris'])->name('buku.attachKategoris');
+        Route::post('/buku/{id}/detach/{kategori_id}', [BukuController::class,'detachKategori'])->name('buku.detachKategori');
+
+        Route::get('/buku/kategori', [BukuController::class,'listKategori'])->name('buku.listKategori');
+        Route::get('/buku/kategori/{id}', [BukuController::class,'showBuku'])->name('buku.showBuku');
+
+
+        // * KATEGORI
+
+        Route::get('/kategori', [KategoriController::class, 'index'])->name('kategori.index');
+        Route::get('/kategori/create', [KategoriController::class, 'create'])->name('kategori.create');
+        Route::post('/kategori', [KategoriController::class, 'store'])->name('kategori.store');
+        Route::get('/kategori/edit/{id}', [KategoriController::class, 'edit'])->name('kategori.edit');
+        Route::post('/kategori/update/{id}', [KategoriController::class, 'update'])->name('kategori.update');
+        Route::post('/kategori/delete/{id}', [KategoriController::class, 'destroy'])->name('kategori.destroy');
+
     });
 });
 

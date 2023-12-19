@@ -39,4 +39,9 @@ class Buku extends Model
         return $this->hasMany(Rating::class);
     }
 
+    public function kategori()
+    {
+        return $this->belongsToMany(Kategori::class, 'kategori_buku');
+    }
+
 }

@@ -10,6 +10,8 @@ use Intervention\Image\Facades\Image;
 use App\Models\Rating;
 use Illuminate\Support\Facades\Auth;
 use App\Models\User;
+use App\Models\Kategori;
+use Illuminate\Support\Facades\DB;
 // use Image;
 
 class BukuController extends Controller
@@ -234,6 +236,90 @@ class BukuController extends Controller
         $no = $batas * ($favouriteBooks->currentPage() - 1);
 
         return view('buku.favourite', compact('favouriteBooks', 'no'));
+    }
+
+    public function showBukuPopuler()
+    {
+        $batas = 10;
+    
+        $data_buku = Buku::with('ratings')
+            ->select('buku.*', DB::raw('AVG(rating.rating) as avg_rating'))
+            ->leftJoin('rating', 'buku.id', '=', 'rating.buku_id')
+            ->groupBy('id', 'judul', 'penulis', 'buku_seo', 'harga', 'tgl_terbit', 'created_at', 'updated_at', 'foto', 'filename', 'filepath')
+            ->orderBy('avg_rating', 'desc')
+            ->paginate($batas);
+    
+        $no = $batas * ($data_buku->currentPage() - 1);
+    
+        return view('buku.populer', compact('data_buku', 'no'));
+    }
+
+    public function attachKategorisForm($id)
+    {
+        $buku = Buku::find($id);
+
+        if (!$buku) {
+            return redirect('/buku')->with('error', 'Data Buku tidak ditemukan');
+        }
+
+        $data_kategori = Kategori::all();
+
+        return view('buku.attachKategori', compact('buku', 'data_kategori'));
+    }
+    
+    public function attachKategoris($bukuId, Request $request)
+    {
+        try {
+            $buku = Buku::findOrFail($bukuId);
+
+            $request->validate([
+                'kategori_ids' => 'required|array',
+                'kategori_ids.*' => 'exists:kategori,id',
+            ]);
+
+            $buku->kategori()->sync($request->input('kategori_ids'));
+
+            return redirect()->route('buku.index')->with('pesan', 'Kategori berhasil ditambahkan ke Buku');
+            } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
+            return redirect('/buku')->with('error', 'Data Buku tidak ditemukan');
+            } catch (\Exception $e) {
+            return redirect('/buku')->with('error', 'Terjadi kesalahan saat menambahkan kategori');
+        }
+    }
+
+    public function detachKategori($id, $kategori_id)
+    {
+        try {
+            $buku = Buku::find($id);
+            $kategori = Kategori::find($kategori_id);
+
+            if (!$buku || !$kategori) {
+                return redirect()->back()->with('error', 'Invalid Buku or Kategori.');
+            }
+
+            $buku->kategori()->detach($kategori->id);
+
+            return redirect()->back()->with('pesan', 'Kategori Berhasil Dilepas dari Buku');
+        } catch (\Exception $e) {
+            // Handle other exceptions if necessary
+            return redirect()->back()->with('error', 'Terjadi kesalahan saat melepaskan kategori');
+        }
+    
+    }
+    public function listKategori()
+    {
+        $batas = 5;
+        $data_kategori = Kategori::orderBy('id', 'desc')->paginate($batas);
+        $no = $batas * ($data_kategori->currentPage() - 1);
+        return view('buku.kategori', compact('data_kategori', 'no'));
+    }
+
+    public function showBuku($id)
+    {
+        $kategori = Kategori::findOrFail($id);
+        $bukuList = $kategori->buku;
+
+        return view('buku.bukuKategori', compact('bukuList', 'kategori'));
     }
 
 }
