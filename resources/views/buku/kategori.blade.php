@@ -25,7 +25,7 @@
                 <table class="table table-striped table-bordered table-fixed">
                     <thead>
                         <tr>
-                            <th scope="col" style="width: 50px;">No.</th>
+                            <th scope="col" style="width: 50px;">Nomor</th>
                             <th scope="col" style="width: 100%;">Name</th>
                         </tr>
                     </thead>
